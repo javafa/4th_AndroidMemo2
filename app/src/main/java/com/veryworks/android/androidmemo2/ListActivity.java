@@ -27,7 +27,7 @@ public class ListActivity extends AppCompatActivity {
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:dd");
 //        String date = sdf.format(now);
         String insertQuery = " insert into memo(title,content,n_date)" +
-                " values('제목테스트', '내용입니다', datetime())";
+                " values('제목테스트', '내용입니다', datetime('now', 'localtime'))";
         con.execSQL(insertQuery);
 
         // 3. 데이터 읽기
@@ -51,5 +51,7 @@ public class ListActivity extends AppCompatActivity {
             System.out.printf("id=%d, title=%s, content=%s, n_date=%s \n", id, title, content, n_date);
         }
 
+        cursor.close();
+        con.close();
     }
 }

@@ -33,6 +33,11 @@ implements View.OnClickListener{
 
         initViews();
         initListener();
+        init();
+    }
+    MemoDAO dao = null;
+    private void init(){
+        dao = new MemoDAO(this);
     }
 
     @Override
@@ -59,7 +64,6 @@ implements View.OnClickListener{
         String query = "insert into memo(title, content, n_date)" +
                 " values('"+title+"','"+content+"',datetime('now','localtime'))";
         // 3. DB에 실행
-        MemoDAO dao = new MemoDAO(this);
         dao.create(query);
         // 4. 입력 화면을 초기화해준다
         editTitle.setText("");
@@ -73,7 +77,7 @@ implements View.OnClickListener{
     public void read(){
         // 0. 쿼리 있어야 되지만 생략 > DAO 에 이미 만들어 놨음
         // 1. DB 실행한 후 결과값을 받아서 처리
-        MemoDAO dao = new MemoDAO(this);
+
         ArrayList<Memo> data = dao.read();
         textResult.setText(" ");
         for(Memo memo :data){
@@ -98,5 +102,14 @@ implements View.OnClickListener{
         editTitle = (EditText) findViewById(R.id.editTitle);
         editContent = (EditText) findViewById(R.id.editContent);
         textResult = (TextView) findViewById(R.id.textResult);
+    }
+
+    @Override
+    protected void onDestroy() {
+        // 사용한 Database 클래스는 닫아준다.
+        if(dao != null){
+            dao.close();
+        }
+        super.onDestroy();
     }
 }

@@ -9,4 +9,9 @@ public class Memo {
     String title;
     String content;
     String n_date;
+
+    @Override
+    public String toString() {
+        return id+"|"+title+"|"+content+"|"+n_date+"\n";
+    }
 }

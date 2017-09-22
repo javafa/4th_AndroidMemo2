@@ -56,17 +56,13 @@ implements View.OnClickListener{
         }
     }
 
-    private Memo getMemoFromScreen(){
-        // 1. 화면에서 입력된 값을 가져온다
-        String title = editTitle.getText().toString();
-        String content = editContent.getText().toString();
-        // 2. Memo 객체를 하나 생성해서 값을 담는다
-        return new Memo(title,content);
-    }
+
 
     private void createAfterRead(){
+        // Memo 데이터 화면에서 가져오기
+        Memo memo = getMemoFromScreen();
         // 생성
-        create();
+        create(memo);
         // 결과 안내
         showInfo("입력되었습니다!!!");
         // 화면초기화
@@ -75,8 +71,15 @@ implements View.OnClickListener{
         read();
     }
 
-    public void create(){
-        Memo memo = getMemoFromScreen();
+    private Memo getMemoFromScreen(){
+        // 1. 화면에서 입력된 값을 가져온다
+        String title = editTitle.getText().toString();
+        String content = editContent.getText().toString();
+        // 2. Memo 객체를 하나 생성해서 값을 담는다
+        return new Memo(title,content);
+    }
+
+    private void create(Memo memo){
         dao.create(memo);
     }
 

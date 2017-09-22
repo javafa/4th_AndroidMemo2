@@ -10,6 +10,13 @@ public class Memo {
     String content;
     String n_date;
 
+    public Memo(){
+
+    }
+    public Memo(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
     @Override
     public String toString() {
         return id+"|"+title+"|"+content+"|"+n_date+"\n";

@@ -44,7 +44,7 @@ implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btnCreate:
-                create();
+                createAfterRead();
                 break;
             case R.id.btnRead:
                 read();
@@ -56,22 +56,37 @@ implements View.OnClickListener{
         }
     }
 
-    public void create(){
+    private Memo getMemoFromScreen(){
         // 1. 화면에서 입력된 값을 가져온다
         String title = editTitle.getText().toString();
         String content = editContent.getText().toString();
-        // 2. 쿼리를 만든다
-        String query = "insert into memo(title, content, n_date)" +
-                " values('"+title+"','"+content+"',datetime('now','localtime'))";
-        // 3. DB에 실행
-        dao.create(query);
-        // 4. 입력 화면을 초기화해준다
+        // 2. Memo 객체를 하나 생성해서 값을 담는다
+        return new Memo(title,content);
+    }
+
+    private void createAfterRead(){
+        // 생성
+        create();
+        // 결과 안내
+        showInfo("입력되었습니다!!!");
+        // 화면초기화
+        resetScreen();
+        // 목록 갱신
+        read();
+    }
+
+    public void create(){
+        Memo memo = getMemoFromScreen();
+        dao.create(memo);
+    }
+
+    private void resetScreen(){
         editTitle.setText("");
         editContent.setText("");
-        // 5. 결과 안내
-        Toast.makeText(this, "입력되었습니다!!!", Toast.LENGTH_SHORT).show();
-        // 6. 목록 갱신
-        read();
+    }
+
+    private void showInfo(String comment){
+        Toast.makeText(this, comment, Toast.LENGTH_SHORT).show();
     }
 
     public void read(){

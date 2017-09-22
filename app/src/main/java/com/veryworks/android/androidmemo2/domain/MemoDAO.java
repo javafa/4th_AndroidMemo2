@@ -24,8 +24,13 @@ public class MemoDAO {
         helper = new DBHelper(context);
     }
     // C 생성
-    public void create(String query){
+    public void create(Memo memo){
         SQLiteDatabase con = helper.getWritableDatabase();
+
+        //넘겨받은 Memo 클래스를 분해해서 쿼리를 만든다
+        String query = "insert into memo(title, content, n_date)" +
+                " values('"+memo.title+"','"+memo.content+"',datetime('now','localtime'))";
+
         con.execSQL(query);
         con.close();
     }
